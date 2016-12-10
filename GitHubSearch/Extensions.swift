@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 extension UIColor {
     
@@ -36,5 +37,15 @@ extension UIColor {
     
     class func mainGitHubSearchColor() -> UIColor {
         return UIColor(hex: "E9E8E9")
+    }
+}
+
+extension UIImageView {
+    
+    public func imageFromUrl(_ urlString: String) {
+        
+//        let url = URL(string: urlString)
+        self.kf.setImage(with: URL(string: urlString))
+				//        self.kf_setImageWithURL(URL(string: urlString)!)
     }
 }

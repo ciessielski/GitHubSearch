@@ -14,10 +14,15 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var starsLabel: UILabel!
     @IBOutlet weak var followersLabel: UILabel!
     
+    let user = User().testUser()
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        self.navigationItem.title = "username"
+        self.navigationItem.title = user.username
+        starsLabel.text = String(user.stars)
+        followersLabel.text = String(user.followers)
+        avatar.imageFromUrl(user.avatarURL)
     }
 
     override func didReceiveMemoryWarning() {
