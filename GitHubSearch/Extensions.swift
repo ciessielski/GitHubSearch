@@ -44,8 +44,10 @@ extension UIImageView {
     
     public func imageFromUrl(_ urlString: String) {
         
-//        let url = URL(string: urlString)
         self.kf.setImage(with: URL(string: urlString))
-				//        self.kf_setImageWithURL(URL(string: urlString)!)
+        self.layer.cornerRadius = self.frame.size.width/2
+        self.clipsToBounds = true
+        self.layer.borderWidth = 5
+        self.layer.borderColor = UIColor.black.cgColor
     }
 }

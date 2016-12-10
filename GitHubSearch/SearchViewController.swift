@@ -50,7 +50,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "td")
+        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
         cell.textLabel?.text = items[indexPath.row]
         return cell
     }
@@ -59,6 +59,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         print(indexPath.row)
         performSegue(withIdentifier: "showDetail", sender: self)
     }
-
 }
 
+extension SearchViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchText)
+    }
+}
