@@ -11,6 +11,8 @@ import SwiftyJSON
 
 class SearchViewController: UIViewController  {
 
+    @IBOutlet weak var loadingView: UIActivityIndicatorView!
+    @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     var results: [JSON] = []
@@ -19,12 +21,19 @@ class SearchViewController: UIViewController  {
         
         super.viewDidLoad()
         adjustViews()
+        loadingView.startAnimating()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.realoadResults), name:NSNotification.Name(rawValue: "usersUpdated"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.realoadResults), name:NSNotification.Name(rawValue: "repositoriesUpdated"), object: nil)
     }
     
     func adjustViews() {
+        
+        loadingView.isHidden = true
+        infoLabel.text = "let's search..."
+        
+        tableView.backgroundColor = UIColor.mainGitHubSearchColor()
+        tableView.isHidden = true
         
         searchBar.backgroundImage = UIImage()
         searchBar.barTintColor = .mainGitHubSearchColor()
@@ -57,8 +66,21 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func realoadResults() {
         
+        print("realoadResults")
         results = users + repos
         results = results.sorted(by: { $0["id"] < $1["id"] })
+        if (results.count > 0) {
+            tableView.isHidden = false
+        } else {
+            tableView.isHidden = true
+            loadingView.isHidden = true
+            if ((searchBar.text?.characters.count)! > 0) {
+                infoLabel.text = "no results :("
+            } else {
+                infoLabel.text = "let's search"
+            }
+        }
+        print("results: \(results.count)")
         tableView.reloadData()
     }
     
@@ -69,6 +91,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
+        cell.backgroundColor = .mainGitHubSearchColor()
         
         if (results[indexPath.row]["login"].string != nil) {
             cell.textLabel?.text = results[indexPath.row]["login"].stringValue
@@ -92,5 +115,12 @@ extension SearchViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         Networking().search(q: searchText)
+        if (searchText.characters.count > 0) {
+            loadingView.isHidden = false
+            infoLabel.text = ""
+        } else {
+            loadingView.isHidden = true
+            infoLabel.text = "let's search"
+        }
     }
 }

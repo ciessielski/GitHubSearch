@@ -21,6 +21,36 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yDW-su-f3W">
+                                <rect key="frame" x="37.5" y="303.5" width="300" height="60"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QB4-lL-7mw">
+                                        <rect key="frame" x="50" y="7.5" width="200" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="200" id="SVZ-Sb-f4l"/>
+                                            <constraint firstAttribute="height" constant="44" id="x4z-Re-43s"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Bz4-b5-6fo">
+                                        <rect key="frame" x="140" y="27" width="20" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="4Bp-jw-iWn"/>
+                                            <constraint firstAttribute="width" constant="20" id="Id0-oD-Ij3"/>
+                                        </constraints>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="40R-cv-qXg"/>
+                                    <constraint firstItem="Bz4-b5-6fo" firstAttribute="centerX" secondItem="yDW-su-f3W" secondAttribute="centerX" id="6p8-JB-80c"/>
+                                    <constraint firstItem="QB4-lL-7mw" firstAttribute="centerX" secondItem="yDW-su-f3W" secondAttribute="centerX" id="Bv8-fr-9uF"/>
+                                    <constraint firstAttribute="width" constant="300" id="LyI-1V-uyh"/>
+                                    <constraint firstItem="QB4-lL-7mw" firstAttribute="centerY" secondItem="yDW-su-f3W" secondAttribute="centerY" id="nca-hc-eFD"/>
+                                    <constraint firstItem="Bz4-b5-6fo" firstAttribute="baseline" secondItem="QB4-lL-7mw" secondAttribute="baseline" id="xF6-OI-d8v"/>
+                                </constraints>
+                            </view>
                             <searchBar contentMode="redraw" placeholder="search for users or repositories" translatesAutoresizingMaskIntoConstraints="NO" id="oKV-IE-Mtt">
                                 <rect key="frame" x="0.0" y="64" width="375" height="44"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -42,11 +72,11 @@
                                 <rect key="frame" x="0.0" y="108" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="9Fd-gI-FnL">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cell" id="9Fd-gI-FnL">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9Fd-gI-FnL" id="E2I-0g-X89">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <connections>
@@ -72,6 +102,8 @@
                             <constraint firstItem="dlS-h9-7Yo" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="bQ7-Ve-CvQ"/>
                             <constraint firstItem="oKV-IE-Mtt" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="cBj-U3-78N"/>
                             <constraint firstItem="dlS-h9-7Yo" firstAttribute="leading" secondItem="oKV-IE-Mtt" secondAttribute="leading" id="iGR-N5-2jM"/>
+                            <constraint firstItem="yDW-su-f3W" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="oZF-Yk-LGA"/>
+                            <constraint firstItem="yDW-su-f3W" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="qve-v1-DGS"/>
                             <constraint firstAttribute="trailing" secondItem="dlS-h9-7Yo" secondAttribute="trailing" id="vMI-zE-3eL"/>
                         </constraints>
                     </view>
@@ -81,6 +113,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="infoLabel" destination="QB4-lL-7mw" id="3T8-oG-wH8"/>
+                        <outlet property="loadingView" destination="Bz4-b5-6fo" id="hZ0-lW-tUQ"/>
                         <outlet property="searchBar" destination="oKV-IE-Mtt" id="695-W1-QjA"/>
                         <outlet property="tableView" destination="dlS-h9-7Yo" id="H1D-kQ-CIR"/>
                     </connections>
