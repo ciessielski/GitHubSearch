@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Alamofire
 import SwiftyJSON
 
 class SearchViewController: UIViewController  {
@@ -19,6 +18,8 @@ class SearchViewController: UIViewController  {
         
         super.viewDidLoad()
         adjustViews()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.realodUsers), name:NSNotification.Name(rawValue: "usersUpdated"), object: nil)
     }
     
     func adjustViews() {
@@ -39,24 +40,37 @@ class SearchViewController: UIViewController  {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetail" {
+            if let indexPath = tableView.indexPathForSelectedRow?[1] {
+                let controller = segue.destination as! DetailViewController
+                controller.displayedUser = users[indexPath]
+            }
+        }
+    }
 }
 
-let items = ["0", "1"]
+//var items = someUsers
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
+    func realodUsers() {
+        tableView.reloadData()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        return users.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
-        cell.textLabel?.text = items[indexPath.row]
+        cell.textLabel?.text = users[indexPath.row]["login"].string
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
         performSegue(withIdentifier: "showDetail", sender: self)
     }
 }
@@ -64,6 +78,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 extension SearchViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchText)
+        Networking().searchForUsersWithString(q: searchText)
     }
 }

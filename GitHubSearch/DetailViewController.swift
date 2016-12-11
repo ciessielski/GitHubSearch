@@ -7,22 +7,37 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class DetailViewController: UIViewController {
     
     @IBOutlet weak var avatar: UIImageView!
     @IBOutlet weak var starsLabel: UILabel!
     @IBOutlet weak var followersLabel: UILabel!
+    var displayedUser: JSON! = nil
     
-    let user = User().testUser()
+    override func viewWillAppear(_ animated: Bool) {
+        
+        Networking.numberOfStarsFor(username: displayedUser["login"].stringValue)
+        Networking.numberOfFollowersFor(username: displayedUser["login"].stringValue)
+    }
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        self.navigationItem.title = user.username
-        starsLabel.text = String(user.stars)
-        followersLabel.text = String(user.followers)
-        avatar.imageFromUrl(user.avatarURL)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.setFollowersLabel), name:NSNotification.Name(rawValue: "followersIntUpdated"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.setStarsLabel), name:NSNotification.Name(rawValue: "starsIntUpdated"), object: nil)
+
+        self.navigationItem.title = displayedUser["login"].stringValue
+        avatar.imageFromUrl(displayedUser["avatar_url"].stringValue)
+    }
+    
+    func setFollowersLabel() {
+        followersLabel.text = String(followers)
+    }
+    
+    func setStarsLabel() {
+        starsLabel.text = String(stars)
     }
 
     override func didReceiveMemoryWarning() {
