@@ -19,8 +19,6 @@ let endpoint = "https://api.github.com/"
 class Networking: NSObject {
     
     func search(q: String) {
-        
-        print("search: \(q)")
         killOldTasks()
         searchForRepositoriesWithString(q: q)
         searchForUsersWithString(q: q)
@@ -28,7 +26,6 @@ class Networking: NSObject {
     
     func killOldTasks() {
         
-        print("kill")
         Alamofire.SessionManager.default.session.getAllTasks { tasks in
             tasks.forEach { $0.cancel() }
         }
@@ -42,7 +39,6 @@ class Networking: NSObject {
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
-                print("repos: \(json["items"].arrayValue.count)")
                 repos = json["items"].arrayValue
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "repositoriesUpdated"), object: nil)
             case .failure(let error):

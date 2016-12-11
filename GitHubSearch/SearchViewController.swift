@@ -66,7 +66,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func realoadResults() {
         
-        print("realoadResults")
         results = users + repos
         results = results.sorted(by: { $0["id"] < $1["id"] })
         if (results.count > 0) {
@@ -80,7 +79,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                 infoLabel.text = "let's search"
             }
         }
-        print("results: \(results.count)")
         tableView.reloadData()
     }
     
