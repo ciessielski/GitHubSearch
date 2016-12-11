@@ -14,6 +14,7 @@ var repos: [JSON] = []
 var users: [JSON] = []
 var followers: Int = 0
 var stars: Int = 0
+let endpoint = "https://api.github.com/"
 
 class Networking: NSObject {
     
@@ -34,7 +35,7 @@ class Networking: NSObject {
     func searchForRepositoriesWithString(q: String) {
         
         repos = []
-        let request = Alamofire.request("https://api.github.com/search/repositories?q=\(q)")
+        let request = Alamofire.request(endpoint + "search/repositories?q=\(q)")
         request.responseJSON { response in
             switch response.result {
             case .success(let value):
@@ -50,7 +51,7 @@ class Networking: NSObject {
     func searchForUsersWithString(q: String) {
         
         users = []
-        let request = Alamofire.request("https://api.github.com/search/users?q=\(q)")
+        let request = Alamofire.request(endpoint + "search/users?q=\(q)")
         request.responseJSON { response in
             switch response.result {
             case .success(let value):
@@ -66,7 +67,7 @@ class Networking: NSObject {
     class func numberOfStarsFor(username: String) {
         
         stars = 0
-        let request = Alamofire.request("https://api.github.com/users/\(username)/starred")
+        let request = Alamofire.request(endpoint + "users/\(username)/starred")
         request.responseJSON { response in
             switch response.result {
             case .success(let value):
@@ -82,7 +83,7 @@ class Networking: NSObject {
     class func numberOfFollowersFor(username: String) {
         
         followers = 0
-        let request = Alamofire.request("https://api.github.com/users/\(username)")
+        let request = Alamofire.request(endpoint + "users/\(username)")
         request.responseJSON { response in
             switch response.result {
             case .success(let value):
