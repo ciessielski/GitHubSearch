@@ -13,13 +13,15 @@ class SearchViewController: UIViewController  {
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
+    var results: [JSON] = []
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         adjustViews()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.realodUsers), name:NSNotification.Name(rawValue: "usersUpdated"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.realoadResults), name:NSNotification.Name(rawValue: "usersUpdated"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.realoadResults), name:NSNotification.Name(rawValue: "repositoriesUpdated"), object: nil)
     }
     
     func adjustViews() {
@@ -45,39 +47,50 @@ class SearchViewController: UIViewController  {
         if segue.identifier == "showDetail" {
             if let indexPath = tableView.indexPathForSelectedRow?[1] {
                 let controller = segue.destination as! DetailViewController
-                controller.displayedUser = users[indexPath]
+                controller.displayedUser = results[indexPath]
             }
         }
     }
 }
 
-//var items = someUsers
-
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func realodUsers() {
+    func realoadResults() {
+        
+        results = users + repos
+        results = results.sorted(by: { $0["id"] < $1["id"] })
         tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users.count
+        return results.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
-        cell.textLabel?.text = users[indexPath.row]["login"].string
+        
+        if (results[indexPath.row]["login"].string != nil) {
+            cell.textLabel?.text = results[indexPath.row]["login"].stringValue
+            cell.accessoryType = .disclosureIndicator
+        } else {
+            cell.textLabel?.text = results[indexPath.row]["name"].stringValue
+        }
+
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "showDetail", sender: self)
+        
+        if (results[indexPath.row]["login"].string != nil) {
+            performSegue(withIdentifier: "showDetail", sender: self)
+        }
     }
 }
 
 extension SearchViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        Networking().searchForUsersWithString(q: searchText)
+        Networking().search(q: searchText)
     }
 }

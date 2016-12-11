@@ -58,19 +58,11 @@
 		624A5ABF1DFBC489003AD181 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				62E93FA71DFA978800B4A5E4 /* Main.storyboard */,
 				62E93FA51DFA978800B4A5E4 /* SearchViewController.swift */,
 				624A5AB91DFBA96B003AD181 /* DetailViewController.swift */,
 			);
 			name = ViewControllers;
-			sourceTree = "<group>";
-		};
-		62E2CDBC1DFD5C860067AEBF /* IB */ = {
-			isa = PBXGroup;
-			children = (
-				62E93FA71DFA978800B4A5E4 /* Main.storyboard */,
-				62E93FAC1DFA978800B4A5E4 /* LaunchScreen.storyboard */,
-			);
-			name = IB;
 			sourceTree = "<group>";
 		};
 		62E93F971DFA978800B4A5E4 = {
@@ -95,10 +87,10 @@
 			isa = PBXGroup;
 			children = (
 				624A5ABF1DFBC489003AD181 /* ViewControllers */,
-				62E2CDBC1DFD5C860067AEBF /* IB */,
 				62E93FA31DFA978800B4A5E4 /* AppDelegate.swift */,
 				624A5ABB1DFBBD97003AD181 /* Extensions.swift */,
 				626053C01DFD4BDA00688653 /* Networking.swift */,
+				62E93FAC1DFA978800B4A5E4 /* LaunchScreen.storyboard */,
 				62E93FAA1DFA978800B4A5E4 /* Assets.xcassets */,
 				62E93FAF1DFA978800B4A5E4 /* Info.plist */,
 			);
