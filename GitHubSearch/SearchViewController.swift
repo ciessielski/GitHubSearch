@@ -16,6 +16,7 @@ class SearchViewController: UIViewController  {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     var results: [JSON] = []
+    var timer: Timer? = nil
     
     override func viewDidLoad() {
         
@@ -118,6 +119,14 @@ extension SearchViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
+            self.search(searchText: searchText)
+        }
+    }
+    
+    func search(searchText: String) {
+        
         if (!Networking().isConnectedToNetwork()) {
             infoLabel.text = "no internet connection :("
             tableView.isHidden = true
@@ -135,7 +144,6 @@ extension SearchViewController: UISearchBarDelegate {
             }
         }
     }
-    
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
