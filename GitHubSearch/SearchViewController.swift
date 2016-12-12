@@ -118,7 +118,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 extension SearchViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
             self.search(searchText: searchText)
@@ -132,7 +131,6 @@ extension SearchViewController: UISearchBarDelegate {
             tableView.isHidden = true
             loadingView.isHidden = true
         }  else {
-            print("1 START SEARCH")
             tableView.isHidden = false
             Networking().search(q: searchText)
             if (searchText.characters.count > 0) {

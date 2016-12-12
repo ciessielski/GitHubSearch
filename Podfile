@@ -6,3 +6,10 @@ target 'GitHubSearch' do
   pod ‘Alamofire’
   pod 'Kingfisher'
 end
+
+target 'GitHubSearchTests' do
+    use_frameworks!
+    pod ‘SwiftyJSON’
+    pod ‘Alamofire’
+    pod 'Kingfisher'
+end

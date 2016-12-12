@@ -37,9 +37,9 @@ extension UIColor {
 
 extension UIImageView {
     
-    public func imageFromUrl(_ urlString: String) {
+    public func imageFromUrl(_ urlString: String?) {
         
-        self.kf.setImage(with: URL(string: urlString))
+        self.kf.setImage(with: URL(string: urlString!))
         self.layer.cornerRadius = self.frame.size.width/2
         self.clipsToBounds = true
         self.layer.borderWidth = 5

@@ -14,7 +14,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var avatar: UIImageView!
     @IBOutlet weak var starsLabel: UILabel!
     @IBOutlet weak var followersLabel: UILabel!
-    var displayedUser: JSON! = nil
+    var displayedUser: JSON = [""]
     
     override func viewWillAppear(_ animated: Bool) {
         
@@ -28,16 +28,16 @@ class DetailViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.setFollowersLabel), name:NSNotification.Name(rawValue: "followersIntUpdated"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.setStarsLabel), name:NSNotification.Name(rawValue: "starsIntUpdated"), object: nil)
 
-        self.navigationItem.title = displayedUser["login"].stringValue
-        avatar.imageFromUrl(displayedUser["avatar_url"].stringValue)
+        self.navigationItem.title? = displayedUser["login"].stringValue
+        avatar.imageFromUrl(String(displayedUser["avatar_url"].stringValue))
     }
     
     func setFollowersLabel() {
-        followersLabel.text = String(followers)
+        followersLabel?.text = String(followers)
     }
     
     func setStarsLabel() {
-        starsLabel.text = String(stars)
+        starsLabel?.text = String(stars)
     }
 
     override func didReceiveMemoryWarning() {
