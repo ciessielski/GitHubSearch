@@ -16,6 +16,7 @@ var users: [JSON] = []
 var followers: Int = 0
 var stars: Int = 0
 let endpoint = "https://api.github.com/"
+var apiLimitReached: Bool = false
 
 class Networking: NSObject {
     
@@ -40,6 +41,13 @@ class Networking: NSObject {
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
+                print("2 SEARCH FINISHED")
+                if (json["message"].stringValue != "") {
+                    print("3 API LIMIT")
+                    apiLimitReached = true
+                } else {
+                    apiLimitReached = false
+                }
                 repos = json["items"].arrayValue
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "repositoriesUpdated"), object: nil)
             case .failure(let error):

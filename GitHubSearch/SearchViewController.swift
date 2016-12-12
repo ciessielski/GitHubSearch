@@ -74,7 +74,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             tableView.isHidden = true
             loadingView.isHidden = true
-            if ((searchBar.text?.characters.count)! > 0) {
+            if (apiLimitReached) {
+                infoLabel.text = "sorry, you did to many searches :( \n please try again later..."
+                tableView.isHidden = true
+                loadingView.isHidden = true
+            } else if ((searchBar.text?.characters.count)! > 0) {
                 infoLabel.text = "no results :("
             } else {
                 infoLabel.text = "let's search"
@@ -114,7 +118,12 @@ extension SearchViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        if (Networking().isConnectedToNetwork()) {
+        if (!Networking().isConnectedToNetwork()) {
+            infoLabel.text = "no internet connection :("
+            tableView.isHidden = true
+            loadingView.isHidden = true
+        }  else {
+            print("1 START SEARCH")
             tableView.isHidden = false
             Networking().search(q: searchText)
             if (searchText.characters.count > 0) {
@@ -124,12 +133,9 @@ extension SearchViewController: UISearchBarDelegate {
                 loadingView.isHidden = true
                 infoLabel.text = "let's search"
             }
-        } else {
-            infoLabel.text = "no internet connection :("
-            tableView.isHidden = true
-            loadingView.isHidden = true
         }
     }
+    
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
