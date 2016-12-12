@@ -37,6 +37,7 @@ class SearchViewController: UIViewController  {
         
         searchBar.backgroundImage = UIImage()
         searchBar.barTintColor = .mainGitHubSearchColor()
+        searchBar.returnKeyType = .done
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -112,13 +113,25 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 extension SearchViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        Networking().search(q: searchText)
-        if (searchText.characters.count > 0) {
-            loadingView.isHidden = false
-            infoLabel.text = ""
+        
+        if (Networking().isConnectedToNetwork()) {
+            tableView.isHidden = false
+            Networking().search(q: searchText)
+            if (searchText.characters.count > 0) {
+                loadingView.isHidden = false
+                infoLabel.text = ""
+            } else {
+                loadingView.isHidden = true
+                infoLabel.text = "let's search"
+            }
         } else {
+            infoLabel.text = "no internet connection :("
+            tableView.isHidden = true
             loadingView.isHidden = true
-            infoLabel.text = "let's search"
         }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 }
